@@ -1336,46 +1336,6 @@ export class Monitor {
     }
 
     try {
-      const next = schedule.days.find(
-        d => d.start > schedule.today
-      );
-
-      // Публікація зображень графіків
-      for (const day of schedule.days) {
-        if (this.shouldStop()) return;
-
-        if (
-          day.end <= this.now() ||
-          (
-            day.start !== schedule.today &&
-            day !== next
-          )
-        ) {
-          continue;
-        }
-
-        if (
-          this.state.photos[day.date] ===
-          schedule.dayHashes[day.date]
-        ) {
-          continue;
-        }
-
-        await this.transport.photo(
-          day,
-          schedule
-        );
-
-        this.state.photos[day.date] =
-          schedule.dayHashes[day.date];
-
-        await this.store.write(this.state);
-
-        this.logger(
-          `Schedule image published: ${day.date}`
-        );
-      }
-
       // Події у межах часу попередження
       const batches = new Map();
 
