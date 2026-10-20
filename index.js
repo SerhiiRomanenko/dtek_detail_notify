@@ -1,3 +1,4 @@
+import { createServer } from 'node:http';
 import { createHash, randomUUID } from 'node:crypto';
 import { readFile, open, rename, mkdir, unlink } from 'node:fs/promises';
 import path from 'node:path';
@@ -494,6 +495,10 @@ async function main() {
   try { process.loadEnvFile(); } catch (e) { if (e.code !== 'ENOENT') throw e; }
   const inspect = process.argv.includes('--inspect-schedule');
   const cfg = config(process.env, !inspect);
+  createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Bot is running');
+}).listen(process.env.PORT || 10000, '0.0.0.0');
   const transport = new Transport(cfg);
   if (process.argv.includes('--check-redis')) {
     if (!cfg.redisUrl) throw new Error('Налаштуйте UPSTASH_REDIS_REST_URL та UPSTASH_REDIS_REST_TOKEN');
