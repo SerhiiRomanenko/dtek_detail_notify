@@ -317,7 +317,6 @@ export function warning(events, now, urgent, remainingOff = []) {
     const unchangedOff = sorted([...new Set(remainingOff)]
         .filter(group => !changing.has(group)));
     if (unchangedOff.length) {
-        lines.push('');
         lines.push(...unchangedOff.map(group => `⚠️ ${group} група залишається відключеною`));
     }
     if (urgent) {
